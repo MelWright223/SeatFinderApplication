@@ -90,9 +90,11 @@ def getTrainModel():
         for j in carriages:
             carriagesTrain = j
             trainModel = has_value(getData, "train_models", "MaximumCarriages", carriagesTrain)
-            carriageData.append([*trainModel])
-            if carriageData.count(j) > 1:
-                print(carriageData)
+            carriageInfo = tuple([*trainModel])
+            carriageData.append(carriageInfo)
+            unq = set(carriageData)
+    print(unq)
+
 
     if getDescID(5):
         carriages = fiveStationInfo()
