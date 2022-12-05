@@ -4,10 +4,15 @@ connString = DatabaseConn.mydb
 getData = connString.cursor(buffered=True)
 
 
+
+
+
+
 def has_value(cursor, table, column, value):
     query = ('Select * From {} Where {} = {}'.format(table, column, value))
     cursor.execute(query)
     return cursor
+
 
 def has_string(cursor, table, column, value):
     query = ('Select * From {} Where {} = "{}"'.format(table, column, value))
@@ -15,10 +20,13 @@ def has_string(cursor, table, column, value):
     return cursor
 
 
+
+
 def cell_value(cursor, column, table, specificColumn, value):
     query = 'Select {} From {} Where {} = {}'.format(column, table, specificColumn, value)
     cursor.execute(query)
     return cursor
+
 
 
 def getDescID(numOfInterStations):
@@ -39,12 +47,26 @@ def getRouteID(RouteID):
 
 def routeInfoFiveStations():
     valueOfCell = cell_value(getData, "route_description_5_stations", "DescriptionID", getDescID(5))
+def getDescID():
+    value = cell_value(getData, "DescriptionID", "routes", "NumOfInterStations", 5)
+    descriptionId = [*value]
+    for i in descriptionId:
+        routeId = [*i]
+        descId = routeId
+    return descId
+
+
+def routeInfo():
+    getDescID()
+    valueOfCell = has_value(getData, "route_description_5_stations", "DescriptionID", getDescID()[0])
+
     dataOfCell = [*valueOfCell]
     routeData = []
     for x in dataOfCell:
         routeData.append(x)
         # desID, depStatID, first, sec, third, four, five, destin = routeData
     return routeData
+
 
 
 def routeInfoEightStations():
@@ -58,11 +80,18 @@ def routeInfoEightStations():
 
 
 def fiveStationInfo():  # if the route has 5 intermediate stations between the departure station and the destination
+
+def stationInfo():
+
     t = 0
     carriages = []
 
     station_data = []
+
     for val in routeInfoFiveStations():
+
+    for val in routeInfo():
+
         if has_value(getData, "train_stations", "StationId", val[1]):
             x = [*val]
             x.pop(0)
@@ -74,6 +103,7 @@ def fiveStationInfo():  # if the route has 5 intermediate stations between the d
                 stationID, stationName, maxCarriages = stations
                 carriages.append(maxCarriages)
     return carriages
+
 
 
 def eightStationInfo():  # if the route has 8 intermediate stations between departure station and destination station
@@ -167,3 +197,9 @@ def getRoute():
             print("No matching station number")
 
 getRoute()
+
+# use station id in station table
+# get maximum carriages for each dedicated station
+# store all maximum carriages in a list
+
+
