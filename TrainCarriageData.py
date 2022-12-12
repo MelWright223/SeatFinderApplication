@@ -15,122 +15,121 @@ def has_string(cursor, table, column, value):
     return cursor
 
 
+def getMultiVal(cursor, table, column1, value1, column2, value2):
+    query = ('Select * From {} Where {} = {} and {} = {}'.format(table, column1, value1, column2, value2))
+    cursor.execute(query)
+    return cursor
+
+
 def cell_value(cursor, column, table, specificColumn, value):
     query = 'Select {} From {} Where {} = {}'.format(column, table, specificColumn, value)
     cursor.execute(query)
     return cursor
 
 
-def getDescID(numOfInterStations):
-    for i in cell_value(getData, "DescriptionID", "routes", "NumOfInterStations", numOfInterStations):
-        descriptionId = [*i]
-        for j in descriptionId:
-            descId = j
-        return descId
-
-
-def getRouteID(RouteID):
-    for i in cell_value(getData, "DescriptionID", "routes","RouteID", RouteID):
-        descriptionId = [*i]
-        for j in descriptionId:
-            descId = j
-    return RouteID
-
-
-def routeInfoFiveStations():
-    valueOfCell = cell_value(getData, "route_description_5_stations", "DescriptionID", getDescID(5))
-    dataOfCell = [*valueOfCell]
-    routeData = []
-    for x in dataOfCell:
-        routeData.append(x)
-        # desID, depStatID, first, sec, third, four, five, destin = routeData
-    return routeData
-
-
-def routeInfoEightStations():
-    valueOfCell = has_value(getData, "route_description_9_stations", "DescriptionID", getDescID(8))
-    dataOfCell = [*valueOfCell]
-    routeData = []
-    for x in dataOfCell:
-        routeData.append(x)
-        # desID, depStatID, first, sec, third, four, five, six, seven, eight, destin = routeData
-    return routeData
-
-
-def fiveStationInfo():  # if the route has 5 intermediate stations between the departure station and the destination
-    t = 0
+def getDescId(RouteID):
     carriages = []
 
     station_data = []
-    for val in routeInfoFiveStations():
-        if has_value(getData, "train_stations", "StationId", val[1]):
-            x = [*val]
-            x.pop(0)
-            station_data.append(x)
-    for val in station_data:
-        for val_two in val:
-            for i in has_value(getData, "train_stations", "StationId", val_two):
-                stations = [*i]
-                stationID, stationName, maxCarriages = stations
-                carriages.append(maxCarriages)
-    return carriages
-
-
-def eightStationInfo():  # if the route has 8 intermediate stations between departure station and destination station
-    t = 0
-    carriages = []
-
-    station_data = []
-    for val in routeInfoEightStations():
-        if has_value(getData, "train_stations", "StationId", val[1]):
-            x = [*val]
-            x.pop(0)
-            station_data.append(x)
-    for val in station_data:
-        for val_two in val:
-            for i in has_value(getData, "train_stations", "StationId", val_two):
-                stations = [*i]
-                stationID, stationName, maxCarriages = stations
-                carriages.append(maxCarriages)
-    return carriages
-
-
-def getTrainModel8Stations():
     carriageData = []
-    if getDescID(8):
-        carriages = eightStationInfo()
-        for j in carriages:
-            carriagesTrain = j
-            trainModel = has_value(getData, "train_models", "MaximumCarriages", carriagesTrain)
-            carriageInfo = tuple([*trainModel])
-            carriageData.append(carriageInfo)
-            unq = set(carriageData)
-    print(unq)
+    for i in cell_value(getData, "DescriptionID", "routes", "RouteID", RouteID):
+        descriptionId = [*i]
+        for j in descriptionId:
+            value = ''.join(j)
+            desList = value.split("_")
+            interNum = desList[0]
+            desId = desList[1]
+
+            valueOfCell = has_value(getData, "route_description_" + interNum + "_stations", "DescriptionID", desId)
+            dataOfCell = [*valueOfCell]
+            routeData = []
+            for x in dataOfCell:
+                routeData.append(x)
+                for val in routeData:
+                    if has_value(getData, "train_stations", "StationId", val[1]):
+                        x = [*val]
+                        x.pop(0)
+                        station_data.append(x)
+                for val in station_data:
+                    for val_two in val:
+                        for m in has_value(getData, "train_stations", "StationId", val_two):
+                            stations = [*m]
+                            stationID, stationName, maxCarriages = stations
+                            carriages.append(maxCarriages)
+                            print(stationName)
+                    for k in carriages:
+                        carriagesTrain = k
+                        trainModel = has_value(getData, "train_models", "MaximumCarriages", carriagesTrain)
+                        carriageInfo = tuple([*trainModel])
+                        carriageData.append(carriageInfo)
+                        unq = set(carriageData)
+                    print(unq)
+
+                # desID, depStatID, first, sec, third, four, five, destin = routeData
 
 
-def getTrainModel5Stations():
-    carriageData = []
-    if getDescID(5):
-        carriages = fiveStationInfo()
-        for j in carriages:
-            carriagesTrain = j
-            trainModel = has_value(getData, "train_models", "MaximumCarriages", carriagesTrain)
-            carriageInfo = tuple([*trainModel])
-            carriageData.append(carriageInfo)
-            unq = set(carriageData)
-    print(unq)
+# def routeInfoEightStations():
+#   valueOfCell = has_value(getData, "route_description_8_stations", "DescriptionID", getInterStations(8))
+#  dataOfCell = [*valueOfCell]
+# routeData = []
+# for x in dataOfCell:
+#   routeData.append(x)
+# desID, depStatID, first, sec, third, four, five, six, seven, eight, destin = routeData
+# return routeData
 
 
-def getallTrainModels():
-    getTrainModel8Stations()
-    getTrainModel5Stations()
+# def fiveStationInfo():  # if the route has 5 intermediate stations between the departure station and the destination
+
+
+# def eightStationInfo():  # if the route has 8 intermediate stations between departure station and destination station
+# t = 0
+# carriages = []
+
+# station_data = []
+# for val in routeInfoEightStations():
+#   if has_value(getData, "train_stations", "StationId", val[1]):
+#      x = [*val]
+#     x.pop(0)
+#    station_data.append(x)
+# for val in station_data:
+#    for val_two in val:
+#       for I in has_value(getData, "train_stations", "StationId", val_two):
+#          stations = [*i]
+#         stationID, stationName, maxCarriages = stations
+#        carriages.append(maxCarriages)
+# return carriages
+
+
+# def getTrainModel8Stations():
+# carriageData = []
+# if getInterStations(8):
+#   carriages = eightStationInfo()
+#  for j in carriages:
+#     carriagesTrain = j
+#    trainModel = has_value(getData, "train_models", "MaximumCarriages", carriagesTrain)
+#   carriageInfo = tuple([*trainModel])
+#  carriageData.append(carriageInfo)
+# unq = set(carriageData)
+# print(unq)
+
+
+# def getTrainModel5Stations():
+# carriageData = []
+# if getInterStations(5):
+#   carriages = fiveStationInfo()
+#  for j in carriages:
+#     carriagesTrain = j
+#    trainModel = has_value(getData, "train_models", "MaximumCarriages", carriagesTrain)
+#   carriageInfo = tuple([*trainModel])
+#  carriageData.append(carriageInfo)
+# unq = set(carriageData)
+# print(unq)
 
 
 def getDepartStation():
-
-    #get departing station
+    # get departing station
     departStation = input("Enter Departing station: ")
-    #depart = str(departStation)
+    # depart = str(departStation)
     getStationData = has_string(getData, "train_stations", "StationName", departStation)
     StationData = [*getStationData]
     for i in StationData:
@@ -138,32 +137,32 @@ def getDepartStation():
     return StationId
 
 
-def getDestStation():
-    #get destination station
-    destStation = input("Enter destination station: ")
-    getDestStation = has_string(getData, "train_stations", "StationName", destStation)
-    getDestination = [*getDestStation]
+def getDesStation():
+    # get destination station
+    desStation = input("Enter destination station: ")
+    des_Station = has_string(getData, "train_stations", "StationName", desStation)
+    getDestination = [*des_Station]
     for i in getDestination:
-        DestStationId, DestStationName, DestMaxCarriages = i
-    return(DestStationId)
+        DesStationId, DesStationName, DesMaxCarriages = i
+    return DesStationId
 
 
 def getRoute():
     departure = getDepartStation()
-    destination = getDestStation()
+    destination = getDesStation()
 
-    routeId = has_value(getData, "routes", "departStationID", departure)
+    routeId = getMultiVal(getData, "routes", "DepartStationID", departure, "DestStationID", destination)
     allRoute = [*routeId]
     for i in allRoute:
-        routeID, departStation, destStation, numOfInter, descriptionId = i
+        routeID, departStation, desStation, numOfInter, descriptionId = i
         if numOfInter == 5:
-            getRouteID(routeID)
-            getTrainModel5Stations()
+            getDescId(routeID)
             print("5 stations")
         elif numOfInter == 8:
-            getTrainModel8Stations()
+            getDescId(routeID)
             print("8 stations")
         else:
             print("No matching station number")
+
 
 getRoute()
