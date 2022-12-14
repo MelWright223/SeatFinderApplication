@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FindYourSeatsApplication.Views.HomePage">
+    <ContentPage.Content>
+        <StackLayout BackgroundColor="White">
+            <Label Text="Welcome to" FontSize="24" TextColor="Black"
+                HorizontalOptions="CenterAndExpand" FontAttributes="Bold"/>
+            <Label Text="Find your Seats" TextColor="Black" FontSize="40" HorizontalTextAlignment="Center"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <SearchBar Text="Station Name" TextColor="Gray" BackgroundColor="Beige" HorizontalOptions="Center" Grid.Row="1" Grid.ColumnSpan="2"/>
+                <Label Text="St Austell Station" TextColor="Black" FontSize="20" Grid.Row="3" HorizontalOptions="Center" Grid.ColumnSpan="2"/>
+            </Grid>
+            <ListView>
+                <ListView.Header>
+                    <Grid BackgroundColor="Black">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Text="Platform Number" HorizontalOptions="Fill"  Grid.Column="0" FontSize="Medium" FontAttributes="Bold" BackgroundColor="Turquoise" TextColor="Black" HorizontalTextAlignment="Center" Margin="1"/>
+                        <Label Text="Departure Time" HorizontalOptions="Fill" Grid.Column="1" FontSize="Medium" FontAttributes="Bold" BackgroundColor="Turquoise" TextColor="Black" HorizontalTextAlignment="Center" Margin="1"/>
+                        <Label Text="Destination" HorizontalOptions="Fill" Grid.Column="2" FontSize="Medium" FontAttributes="Bold" BackgroundColor="Turquoise" TextColor="Black" HorizontalTextAlignment="Center" Margin="1"/>
+                    </Grid>
+                </ListView.Header>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
