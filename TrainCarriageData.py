@@ -9,6 +9,7 @@ def has_value(cursor, table, column, value):
     cursor.execute(query)
     return cursor
 
+
 def has_string(cursor, table, column, value):
     query = ('Select * From {} Where {} = "{}"'.format(table, column, value))
     cursor.execute(query)
@@ -54,7 +55,7 @@ def getDescId(RouteID):
                     for val_two in val:
                         for m in has_value(getData, "train_stations", "StationId", val_two):
                             stations = [*m]
-                            stationID, stationName, maxCarriages = stations
+                            stationID, stationName, maxCarriages, stationLat, StationLong = stations
                             carriages.append(maxCarriages)
                             print(stationName)
                     for k in carriages:
@@ -133,7 +134,7 @@ def getDepartStation():
     getStationData = has_string(getData, "train_stations", "StationName", departStation)
     StationData = [*getStationData]
     for i in StationData:
-        StationId, StationName, MaxCarriages = i
+        StationId, StationName, MaxCarriages, StationLat, StationLong = i
     return StationId
 
 
@@ -143,7 +144,7 @@ def getDesStation():
     des_Station = has_string(getData, "train_stations", "StationName", desStation)
     getDestination = [*des_Station]
     for i in getDestination:
-        DesStationId, DesStationName, DesMaxCarriages = i
+        DesStationId, DesStationName, DesMaxCarriages, DesStationLat, DesStationLong = i
     return DesStationId
 
 
