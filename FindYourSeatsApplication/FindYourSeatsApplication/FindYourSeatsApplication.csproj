@@ -17,7 +17,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Views\HomePage.xaml">
+    <Compile Update="Views\AppHomePage.xaml.cs">
+      <DependentUpon>AppHomePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\TrainHomePage.xaml.cs">
+      <DependentUpon>TrainHomePage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Views\AppHomePage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\TrainHomePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

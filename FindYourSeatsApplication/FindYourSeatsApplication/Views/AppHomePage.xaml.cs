@@ -10,11 +10,15 @@ using Xamarin.Forms.Xaml;
 namespace FindYourSeatsApplication.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class HomePage : ContentPage
+    public partial class AppHomePage : ContentPage
     {
-        public HomePage()
+        public AppHomePage()
         {
             InitializeComponent();
+        }
+        async void OnButtonClick(object sender, EventArgs args)
+        {
+            await Navigation.PushAsync(new TrainHomePage());
         }
     }
 }

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FindYourSeatsApplication.Views.AppHomePage">
+    <ContentPage.Content>
+        <StackLayout BackgroundColor="White">
+            <Label Text="Welcome to" FontSize="24" TextColor="Black"
+                HorizontalOptions="CenterAndExpand" FontAttributes="Bold"/>
+            <Label Text="Find your Seats" TextColor="Black" FontSize="40" HorizontalTextAlignment="Center"/>
+           
+                <Label Text="Please Select Mode of Transport" TextColor="Black" FontSize="20" HorizontalOptions="Center" Grid.ColumnSpan="2"/>
+                <Button Text="Aeroplane" TextColor="Black" BackgroundColor="Beige" HorizontalOptions="CenterAndExpand" Grid.Row="2" Grid.ColumnSpan="2" HeightRequest="200" WidthRequest="200" BorderWidth="3" BorderColor="Black" />
+            <Button Text="Boat" TextColor="Black" BackgroundColor="Beige" HorizontalOptions="Center" Grid.Row="3" Grid.ColumnSpan="2" HeightRequest="200" WidthRequest="200" BorderWidth="3" BorderColor="Black"/>
+            <Button Text="Train" TextColor="Black" BackgroundColor="Beige" HorizontalOptions="Center" Grid.Row="4" Grid.ColumnSpan="2" Clicked="OnButtonClick" HeightRequest="200" WidthRequest="200" BorderWidth="3" BorderColor="Black"/>
+            
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
