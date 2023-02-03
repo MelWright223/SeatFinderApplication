@@ -4,17 +4,17 @@ using System.Text;
 
 namespace FindYourSeatsApplication.Models
 {
-    class StationData
+    public class StationData
     {
-        int StationID { get; set; }
-        string StationName { get; set; }
-        int MaximumCarriageSpace { get; set; }
-        string StationLat { get; set; }
-        string StationLong { get; set; }
-        int JourneyID { get; set; }
-        int Platform { get; set; }
-        int DestinationStationID { get; set; }
-        DateTime Time { get; set; }
+       public int StationID { get; set; }
+        public string StationName { get; set; }
+        public int MaximumCarriageSpace { get; set; }
+        public  string StationLat { get; set; }
+        public string StationLong { get; set; }
+       // public int JourneyID { get; set; }
+        //public int Platform { get; set; }
+        //public int DestinationStationID { get; set; }
+       // public DateTime Time { get; set; }
 
         
     }

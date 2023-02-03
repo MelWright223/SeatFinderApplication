@@ -59,6 +59,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="MySql.Data">
+      <Version>8.0.32</Version>
+    </PackageReference>
+    <PackageReference Include="MySqlConnector">
+      <Version>2.2.5</Version>
+    </PackageReference>
     <PackageReference Include="System.Data.SqlClient">
       <Version>4.8.5</Version>
     </PackageReference>
@@ -101,4 +107,9 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties XamarinHotReloadDebuggerTimeoutExceptionFindYourSeatsApplicationAndroidHideInfoBar="True" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>

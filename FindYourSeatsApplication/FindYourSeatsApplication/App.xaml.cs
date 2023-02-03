@@ -1,4 +1,4 @@
-﻿using FindYourSeatsApplication.Services;
+﻿
 using FindYourSeatsApplication.Views;
 using System;
 using Xamarin.Forms;
@@ -13,7 +13,7 @@ namespace FindYourSeatsApplication
         {
             InitializeComponent();
 
-            DependencyService.Register<MockDataStore>();
+            
             MainPage = new AppShell();
         }
 

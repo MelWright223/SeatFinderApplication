@@ -5,11 +5,11 @@ using Xamarin.Forms;
 
 namespace FindYourSeatsApplication.ViewModels
 {
-    public class AboutViewModel : BaseViewModel
+    public class AboutViewModel 
     {
         public AboutViewModel()
         {
-            Title = "About";
+            
             
         }
 

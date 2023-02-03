@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Extended.Wpf.Toolkit" Version="4.5.0" />
     <PackageReference Include="MySql.Data" Version="8.0.32" />
     <PackageReference Include="MySqlConnector" Version="2.2.5" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2545" />  

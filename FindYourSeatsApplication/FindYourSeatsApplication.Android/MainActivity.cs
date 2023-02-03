@@ -6,10 +6,11 @@ using Android.Runtime;
 using Android.OS;
 using System.Threading.Tasks;
 using System.Threading;
+using MySql.Data.MySqlClient;
 
 namespace FindYourSeatsApplication.Droid
 {
-    [Activity(Label = "FindYourSeatsApplication", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize )]
+    [Activity(Label = "FindYourSeatsApplication", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         protected override async void OnCreate(Bundle savedInstanceState)
@@ -20,7 +21,7 @@ namespace FindYourSeatsApplication.Droid
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
             var status = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
-            GetCurrentLocation();
+            CheckAndRequestLocationPermission();
 
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
@@ -49,41 +50,14 @@ namespace FindYourSeatsApplication.Droid
                 status = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
             }
 
-           
+
 
             return status;
         }
         CancellationTokenSource cts;
 
-        public async Task GetCurrentLocation()
-        {
-            try
-            {
-                var request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(10));
-                cts = new CancellationTokenSource();
-                var location = await Geolocation.GetLocationAsync(request, cts.Token);
 
-
-                Console.WriteLine($"Latitude: {location.Latitude}, Longitude: {location.Longitude}, Altitude: {location.Altitude}");
-            }
-            catch (FeatureNotSupportedException fnsEx)
-            {
-                // Handle not supported on device exception
-            }
-            catch (FeatureNotEnabledException fneEx)
-            {
-                // Handle not enabled on device exception
-            }
-            catch (PermissionException pEx)
-            {
-                // Handle permission exception
-            }
-            catch (Exception ex)
-            {
-                // Unable to get location
-            }
-        }
-
-
+       
     }
 }
+

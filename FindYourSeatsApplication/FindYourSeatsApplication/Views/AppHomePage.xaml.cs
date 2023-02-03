@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using FindYourSeatsApplication.Controller;
 
 namespace FindYourSeatsApplication.Views
 {
@@ -15,6 +16,7 @@ namespace FindYourSeatsApplication.Views
         public AppHomePage()
         {
             InitializeComponent();
+            
         }
         async void OnButtonClick(object sender, EventArgs args)
         {
