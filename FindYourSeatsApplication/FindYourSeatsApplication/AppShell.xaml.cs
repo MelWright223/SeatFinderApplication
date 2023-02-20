@@ -10,7 +10,7 @@ using FindYourSeatsApplication.Controller;
 
 namespace FindYourSeatsApplication
 {
-    public partial class AppShell : Xamarin.Forms.Shell
+    public partial class AppShell : Shell
     {
         public AppShell()
         {
@@ -31,8 +31,17 @@ namespace FindYourSeatsApplication
                 var cts = new CancellationTokenSource();
                 var location = await Geolocation.GetLocationAsync(request, cts.Token);
 
-                getDeg.calcDegrees(location.Longitude);
-                getDeg.calcDegrees(location.Latitude);
+                var getCurrentDegLat = getDeg.calcDegrees(location.Latitude);
+                var getCurrentDegLon = getDeg.calcDegrees(location.Longitude);
+
+                var getCurrentMinLat = getDeg.CalMinutes(location.Latitude, getCurrentDegLat);
+                var getCurrentMinLon = getDeg.CalMinutes(location.Longitude, getCurrentDegLon);
+                
+                Console.WriteLine("Current minutes Lat - " + getCurrentMinLat);
+
+                Console.WriteLine("Current Minutes Lon - " + getCurrentMinLon);
+
+                // getDeg.calcDegrees(location.Latitude);
                 Console.WriteLine($"Latitude: {location.Latitude}, Longitude: {location.Longitude}, Altitude: {location.Altitude}");
 
             }

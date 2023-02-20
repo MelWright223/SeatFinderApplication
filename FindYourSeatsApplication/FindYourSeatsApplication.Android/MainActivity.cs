@@ -21,7 +21,7 @@ namespace FindYourSeatsApplication.Droid
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
             var status = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
-            CheckAndRequestLocationPermission();
+            await CheckAndRequestLocationPermission();
 
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
@@ -54,7 +54,8 @@ namespace FindYourSeatsApplication.Droid
 
             return status;
         }
-        CancellationTokenSource cts;
+
+        readonly CancellationTokenSource cts;
 
 
        
