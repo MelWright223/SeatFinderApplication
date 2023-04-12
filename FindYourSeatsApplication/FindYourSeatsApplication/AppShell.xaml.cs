@@ -15,53 +15,42 @@ namespace FindYourSeatsApplication
         public AppShell()
         {
             InitializeComponent();
-            GetCurrentLocation();    
+            //GetCurrentLocation();
+            
         }
-
-        private async void OnMenuItemClicked(object sender, EventArgs e)
+        degreeConverter getDeg = new degreeConverter();
+    
+    private async void OnMenuItemClicked(object sender, EventArgs e)
         {
             await Shell.Current.GoToAsync("//HomePage");
         }
-        public async Task GetCurrentLocation()
+        public async Task<double> GetCurrentLocation()
         {
-            degreeConverter getDeg = new degreeConverter();
-            try
-            {
+
+
                 var request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(10));
-                var cts = new CancellationTokenSource();
+                CancellationTokenSource cts = new CancellationTokenSource();
                 var location = await Geolocation.GetLocationAsync(request, cts.Token);
 
-                var getCurrentDegLat = getDeg.calcDegrees(location.Latitude);
-                var getCurrentDegLon = getDeg.calcDegrees(location.Longitude);
+                if (location != null)
+                {
+                    //Console.WriteLine($"Latitude: {location.Latitude}, Longitude: {location.Longitude}, Altitude: {location.Altitude}");
+                    Console.WriteLine("Hitpoint");
+                }
+           // Console.WriteLine("Latitude: " + location.Latitude);
+            return (location.Latitude);
 
-                var getCurrentMinLat = getDeg.CalMinutes(location.Latitude, getCurrentDegLat);
-                var getCurrentMinLon = getDeg.CalMinutes(location.Longitude, getCurrentDegLon);
-                
-                Console.WriteLine("Current minutes Lat - " + getCurrentMinLat);
-
-                Console.WriteLine("Current Minutes Lon - " + getCurrentMinLon);
-
-                // getDeg.calcDegrees(location.Latitude);
-                Console.WriteLine($"Latitude: {location.Latitude}, Longitude: {location.Longitude}, Altitude: {location.Altitude}");
-
-            }
-            catch (FeatureNotSupportedException fnsEx)
-            {
-                // Handle not supported on device exception
-            }
-            catch (FeatureNotEnabledException fneEx)
-            {
-                // Handle not enabled on device exception
-            }
-            catch (PermissionException pEx)
-            {
-                // Handle permission exception
-            }
-            catch (Exception ex)
-            {
-                // Unable to get location
-            }
         }
+        public async Task<double> GetLatDegreesAsync()
+        {
+            var getLoc = await GetCurrentLocation();
+            var getCurrentDegLat = getDeg.calcDegrees(Convert.ToDouble(getLoc));
+           
+            return getCurrentDegLat;
+            
+        }
+       
+      
 
     }
 }

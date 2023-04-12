@@ -27,7 +27,7 @@ namespace FindYourSeatsApplication.Controller
         {
 
             server = "127.0.0.1";
-            database = "traindata";
+            database = "data";
             uid = "root";
             password = "RedPanda32!";
             string connectionString;
