@@ -24,7 +24,7 @@ namespace FindYourSeatsApplication
         {
             await Shell.Current.GoToAsync("//HomePage");
         }
-        public async Task<double> GetCurrentLocation()
+        public async Task<Location> GetCurrentLocation()
         {
 
 
@@ -38,15 +38,16 @@ namespace FindYourSeatsApplication
                     Console.WriteLine("Hitpoint");
                 }
            // Console.WriteLine("Latitude: " + location.Latitude);
-            return (location.Latitude);
+            return (location);
 
         }
-        public async Task<double> GetLatDegreesAsync()
+        public async Task<Location> GetLatDegreesAsync(double location)
         {
             var getLoc = await GetCurrentLocation();
-            var getCurrentDegLat = getDeg.calcDegrees(Convert.ToDouble(getLoc));
+           // var getCurrentDegLat = getDeg.calcDegrees(getLoc);
+
            
-            return getCurrentDegLat;
+            return getLoc;
             
         }
        

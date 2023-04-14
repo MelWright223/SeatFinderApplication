@@ -8,6 +8,8 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using FindYourSeatsApplication.Controller;
 using FindYourSeatsApplication.Models;
+using Xamarin.Essentials;
+using System.Threading;
 
 namespace FindYourSeatsApplication.Views
 {
@@ -22,26 +24,77 @@ namespace FindYourSeatsApplication.Views
         public TrainHomePage()
         {
             InitializeComponent();
-          
-           var StationName = data.StationName = "Par";
-           var StationLat = data.StationLat = 50.3560;
-           var StationLong = data.StationLong = -4.7044;
-           // var stationLat = con.calcDegrees(data.StationLat);
-           // var stationLong = con.calcDegrees(data.StationLong);
 
-          
-
-            int deg = con.calcDegrees(StationLat);
-            var min = con.CalMinutes(StationLat, deg);
-            Console.WriteLine("Par Degrees Lat - " + deg);
-            Console.WriteLine("Par MInutes Lat - " + min);
-            var UserLoc = await shell.GetLatDegreesAsync(); 
-            Console.WriteLine("Current Lat Degrees -" + UserLoc.ToString());
+            var loc = Compare();
+            
            
 
 
 
-        }
 
+
+        }
+        public async Task<Location> GetCurrentLocation()
+        {
+
+
+            var request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(5));
+            CancellationTokenSource cts = new CancellationTokenSource();
+            var location = await Geolocation.GetLocationAsync(request, cts.Token);
+
+            if (location != null)
+            {
+                //Console.WriteLine($"Latitude: {location.Latitude}, Longitude: {location.Longitude}, Altitude: {location.Altitude}");
+                Console.WriteLine("Hitpoint");
+            }
+            // Console.WriteLine("Latitude: " + location.Latitude);
+            return (location);
+
+        }
+        public async Task<double>  Compare()
+        {
+            var getDeg = await getLatMin();
+            var StationName = data.StationName = "Par";
+            var StationLat = data.StationLat = 50.3560;
+            var StationLong = data.StationLong = -4.7044;
+
+            int deg = con.calcDegrees(StationLat);
+            var min = con.CalMinutes(StationLat, deg);
+
+        //    while (getDeg < 59)
+          //  {
+              if(getDeg <= min)
+             //   {
+                    Console.WriteLine("!");
+               // }
+                
+           // }
+            //if (getDeg < 
+           // {
+              //Console.WriteLine("True");
+            //}
+            return getDeg;
+        }
+        public async Task<int> getLatAsync()
+        {
+            var location =  await shell.GetCurrentLocation();
+            Console.WriteLine(location);
+            
+            var latDeg = con.calcDegrees(location.Latitude);
+            Console.WriteLine("Current Deg: " + latDeg);
+            return latDeg;
+        }
+        public async Task<double> getLatMin()
+        {
+            var location = await shell.GetCurrentLocation();
+            Console.WriteLine(location);
+            var getDeg = await getLatAsync();
+
+            //var getLat = await shell.GetLatDegreesAsync(getDeg);
+            Console.WriteLine(getDeg);
+            var latMin = con.CalMinutes(location.Latitude, getDeg);
+            Console.WriteLine("mins: " + latMin);
+            return latMin;
+        }
     }
 }

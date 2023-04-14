@@ -6,7 +6,7 @@ using Android.Runtime;
 using Android.OS;
 using System.Threading.Tasks;
 using System.Threading;
-using MySql.Data.MySqlClient;
+//using MySql.Data.MySqlClient;
 
 namespace FindYourSeatsApplication.Droid
 {
@@ -20,6 +20,7 @@ namespace FindYourSeatsApplication.Droid
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
+           
             var status = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
             await CheckAndRequestLocationPermission();
 
@@ -55,10 +56,10 @@ namespace FindYourSeatsApplication.Droid
             return status;
         }
 
-        readonly CancellationTokenSource cts;
 
 
-       
+
+
     }
 }
 

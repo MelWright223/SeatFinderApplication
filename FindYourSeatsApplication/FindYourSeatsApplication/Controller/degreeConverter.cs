@@ -4,7 +4,7 @@ using System.Text;
 
 namespace FindYourSeatsApplication.Controller
 {
-    class degreeConverter
+    public class degreeConverter
     {
         public int calcDegrees(double Getdecimal)
         {
