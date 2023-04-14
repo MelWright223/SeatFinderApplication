@@ -55,23 +55,26 @@ namespace FindYourSeatsApplication.Views
         {
             var getDeg = await getLatMin();
             var StationName = data.StationName = "Par";
-            var StationLat = data.StationLat = 50.3560;
+            var StationLat = data.StationLat = 50.2560;
             var StationLong = data.StationLong = -4.7044;
 
             int deg = con.calcDegrees(StationLat);
             var min = con.CalMinutes(StationLat, deg);
 
-        //    while (getDeg < 59)
-          //  {
-              if(getDeg <= min)
-             //   {
+            if (getDeg < 59)
+            {
+
+                if (getDeg <= min)
+                {
                     Console.WriteLine("!");
-               // }
-                
-           // }
+                }
+
+            }
+
+            // }
             //if (getDeg < 
-           // {
-              //Console.WriteLine("True");
+            // {
+            //Console.WriteLine("True");
             //}
             return getDeg;
         }
