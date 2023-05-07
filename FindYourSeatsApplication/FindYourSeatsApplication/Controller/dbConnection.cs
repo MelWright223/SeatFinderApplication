@@ -1,10 +1,12 @@
-﻿using MySql.Data.MySqlClient;
+﻿
 using System;
 using System.Data;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using FindYourSeatsApplication.Models;
+using MySqlConnector;
+
 
 namespace FindYourSeatsApplication.Controller
 {

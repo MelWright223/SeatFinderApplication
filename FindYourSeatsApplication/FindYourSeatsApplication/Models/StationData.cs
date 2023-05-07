@@ -11,11 +11,15 @@ namespace FindYourSeatsApplication.Models
         public int MaximumCarriageSpace { get; set; }
         public double StationLat { get; set; }
         public double StationLong { get; set; }
-       // public int JourneyID { get; set; }
-        //public int Platform { get; set; }
-        //public int DestinationStationID { get; set; }
-       // public DateTime Time { get; set; }
 
-        
+        public Location stationLocation { get; set; }
+
+
+        public double GetOverallLoc(double stationLat)
+        {
+         
+            return stationLat;
+        }
+
     }
 }

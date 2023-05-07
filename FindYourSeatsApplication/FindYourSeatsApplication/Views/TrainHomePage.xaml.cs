@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,30 +11,39 @@ using FindYourSeatsApplication.Controller;
 using FindYourSeatsApplication.Models;
 using Xamarin.Essentials;
 using System.Threading;
+using System.Net.Http;
+using Newtonsoft.Json;
 
 namespace FindYourSeatsApplication.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class TrainHomePage : ContentPage
     {
-    databaseConn conn = new databaseConn();
+       //dbConnection conn = new dbConnection();
         StationData data = new StationData();
         degreeConverter con = new degreeConverter();
         AppShell shell = new AppShell();
-     
+        private string getStationName;
+        public string GetStationName
+        {
+            get { return getStationName; }
+            set { getStationName = value;
+                OnPropertyChanged(nameof(GetStationName));
+            }
+        }
+
+    
+    
+        
         public TrainHomePage()
         {
             InitializeComponent();
 
             var loc = Compare();
-            
-           
 
-
-
-
-
+         
         }
+    
         public async Task<Location> GetCurrentLocation()
         {
 
