@@ -32,8 +32,11 @@ namespace FindYourSeatsApplication.Views
         private double StationLong;
         private List<StationData> stationData = new List<StationData>();
         private ObservableCollection<StationData> _station;
+        private ObservableCollection<JourneyData> _journey;
+        private List<JourneyData> journeyData = new List<JourneyData>();
 
         private string getStationName;
+        private int getPlatformNumber;
         public string GetStationName
         {
             get { return getStationName; }
@@ -42,9 +45,17 @@ namespace FindYourSeatsApplication.Views
             }
         }
 
-    
-    
-        
+        public int GetPlatformNumber
+        {
+            get { return getPlatformNumber; }
+            set
+            {
+                getPlatformNumber = value;
+                OnPropertyChanged(nameof(GetPlatformNumber));
+            }
+        }
+
+
         public TrainHomePage()
         {
             InitializeComponent();
@@ -56,24 +67,15 @@ namespace FindYourSeatsApplication.Views
             
 
             _station = new ObservableCollection<StationData>();
+            _journey = new ObservableCollection<JourneyData>();
             GetData();
+            
 
             //client = new HttpClient();
             Title = "Train HomePage";
          
         }
-        //public async Task<List<StationData>> GetStations()
-        //{
-        //Uri uri1 = new Uri(string.Format("127.0.0.1:5001", string.Empty));
-        //UriBuilder uri = new UriBuilder();
-
-        //HttpResponseMessage response = await httpClient.GetAsync("127.0.0.1:5001/api/station");
-
-
-        //   Console.WriteLine(response.IsSuccessStatusCode);
-        //  string content = await response.Content.ReadAsStringAsync();
-        // var stationData = JsonConvert.DeserializeObject<List<StationData>>(content);
-        // return stationData;
+        
 
 
 
@@ -95,11 +97,16 @@ namespace FindYourSeatsApplication.Views
             set { _station = value; }
             
         }
-        public async void GetData()
+        public ObservableCollection<JourneyData> Journeys
+        {
+            get { return _journey; }
+            set { _journey = value; }
+        }
+        public async Task<int> GetData()
         {
             var getCurrentLat = await getLat();
             var getCurrentLong = await getLong();
-            var getDeg = await getLatMin();
+           // var getDeg = await getLatMin();
            // int Longdeg;
            // int LatDeg;
             int CurrentLatDeg;
@@ -113,46 +120,68 @@ namespace FindYourSeatsApplication.Views
             
             Console.WriteLine(message.Content.ReadAsStringAsync());
             stationData = JsonConvert.DeserializeObject<List<StationData>>(await message.Content.ReadAsStringAsync());
+            Location currentLoc = new Location(getCurrentLat, getCurrentLong);
             //string responseBody = await message.Content.ReadAsStringAsync();
-            if (message.IsSuccessStatusCode){
+            if (message.IsSuccessStatusCode)
+            {
 
-
-               
 
                 Console.WriteLine(stationData);
                 foreach(StationData station in stationData)
-                {
+                { 
                     Stations.Add(station);
-                   // Longdeg = con.calcDegrees(station.StationLong);
-                   // CurrentLongDeg = con.calcDegrees(getCurrentLong);
-                   // LatDeg = con.calcDegrees(station.StationLat);
-                  //  CurrentLatDeg = con.calcDegrees(getCurrentLat);
+                  
 
-                    Location Station = new Location(station.StationLat, station.StationLong);
-                    var distance = Location.CalculateDistance(getCurrentLat, getCurrentLong, Station, DistanceUnits.Miles);
+                   Location _station = new Location(station.StationLat,station.StationLong);
+                    double distance = Location.CalculateDistance(currentLoc, _station, DistanceUnits.Miles);
+                    Console.WriteLine(distance);
                     
                    if (distance < 3)
                    {
 
                       BindingContext = this;
                       GetStationName = station.StationName;
+                      Console.WriteLine(station.StationName);
+                        getJourneys(station.StationID);
+                        return station.StationID;
 
+                       
                    }
-                             
                    
                 }
-                Console.WriteLine(GetStationName.ToString());
 
-                //stationData = JsonConvert.DeserializeObject<List<StationData>>(STrippedString);
-               // Console.WriteLine(Stations);
+               
             }
-
+            return StationId;
             
         }
-        public async void SetData()
+        public async void getJourneys(int stationID)
         {
             
+            HttpResponseMessage message = await client.GetAsync("http://192.168.1.127:44326/api/Station/JourneyID?stationId=" + stationID);
+
+            Console.WriteLine(message.Content.ReadAsStringAsync());
+            if (message.IsSuccessStatusCode)
+            {
+                journeyData = JsonConvert.DeserializeObject<List<JourneyData>>(await message.Content.ReadAsStringAsync());
+
+                foreach (JourneyData journey in journeyData)
+                {
+                    Journeys.Add(journey);
+
+                    //Console.WriteLine(journey.JourneyID);
+                    if (journey.DestinationID == stationID)
+                    {
+                        BindingContext = this;
+                        GetPlatformNumber = journey.PlatformNumber;
+                    }
+
+                }
+
+            }                                       
+            ;
         }
+      
     
         public async Task<Location> GetCurrentLocation()
         {
@@ -162,62 +191,31 @@ namespace FindYourSeatsApplication.Views
             CancellationTokenSource cts = new CancellationTokenSource();
             var location = await Geolocation.GetLocationAsync(request, cts.Token);
 
-            if (location != null)
-            {
-                //Console.WriteLine($"Latitude: {location.Latitude}, Longitude: {location.Longitude}, Altitude: {location.Altitude}");
-                Console.WriteLine("Hitpoint");
-            }
-            // Console.WriteLine("Latitude: " + location.Latitude);
             return (location);
 
         }
-        public async Task<double>  Compare()
-        {
-            var getDeg = await getLatMin();
-            var StationName = data.StationName = "Par";
-            var StationLat = data.StationLat = 50.2560;
-            var StationLong = data.StationLong = -4.7044;
-
-            int deg = con.calcDegrees(StationLat);
-            var min = con.CalMinutes(StationLat, deg);
-
-            if (getDeg < 59)
-            {
-
-                if (getDeg <= min)
-                {
-                    Console.WriteLine("!");
-                }
-
-            }
-
-            // }
-            //if (getDeg < 
-            // {
-            //Console.WriteLine("True");
-            //}
-            return getDeg;
-        }
-        public async Task<int> getLatAsync()
+       
+       
+        public async Task<double> getLat()
         {
             var location =  await shell.GetCurrentLocation();
             Console.WriteLine(location);
             
-            var latDeg = con.calcDegrees(location.Latitude);
-            Console.WriteLine("Current Deg: " + latDeg);
+            var latDeg = location.Latitude;
+            Console.WriteLine(latDeg);
             return latDeg;
         }
-        public async Task<double> getLatMin()
+        public async Task<double> getLong()
         {
-            var location = await shell.GetCurrentLocation();
-            Console.WriteLine(location);
-            var getDeg = await getLatAsync();
+           
+                var location = await shell.GetCurrentLocation();
+                Console.WriteLine(location);
 
-            //var getLat = await shell.GetLatDegreesAsync(getDeg);
-            Console.WriteLine(getDeg);
-            var latMin = con.CalMinutes(location.Latitude, getDeg);
-            Console.WriteLine("mins: " + latMin);
-            return latMin;
+                var longDeg = location.Longitude;
+                Console.WriteLine( longDeg);
+                return longDeg;
+            
         }
+        
     }
 }

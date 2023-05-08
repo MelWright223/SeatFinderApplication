@@ -19,28 +19,13 @@ namespace FindYourSeatsApplication
         {
             InitializeComponent();
             //GetCurrentLocation();
-           stationAsync();
+           
 
         }
 
-        public async Task<List<StationData>> stationAsync()
-        {
-            HttpClient httpClient = new HttpClient();
-            HttpResponseMessage response = await httpClient.GetAsync("127.0.0.1:5001");
+        
 
-
-
-
-            Console.WriteLine("Blah Blah");
-            string content = await response.Content.ReadAsStringAsync();
-            var stationData = JsonConvert.DeserializeObject<List<StationData>>(content);
-            return stationData;
-        }
-
-        private void InitializeComponent()
-        {
-            throw new NotImplementedException();
-        }
+       
 
         degreeConverter getDeg = new degreeConverter();
     

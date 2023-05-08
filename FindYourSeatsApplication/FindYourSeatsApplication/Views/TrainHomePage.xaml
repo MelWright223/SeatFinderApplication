@@ -2,9 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:vm="clr-namespace:FindYourSeatsApplication.ViewModels"
              x:Class="FindYourSeatsApplication.Views.TrainHomePage">
-    <ContentPage.BindingContext>
-        <vm:HomePageViewModel />
-    </ContentPage.BindingContext>
+
     <ContentPage.Content>
         
         <StackLayout BackgroundColor="White">
@@ -17,7 +15,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <SearchBar Text="Station Name" TextColor="Gray" BackgroundColor="Beige" HorizontalOptions="Center" Grid.Row="1" Grid.ColumnSpan="2"/>
-                <Label Text="St Austell Station" TextColor="Black" FontSize="20" Grid.Row="3" HorizontalOptions="Center" Grid.ColumnSpan="2"/>
+                <Label Text="{Binding GetStationName}" TextColor="Black" FontSize="20" Grid.Row="3" HorizontalOptions="Center" Grid.ColumnSpan="2"/>
          
             </Grid>
             <ListView>
@@ -28,9 +26,10 @@
                             <ColumnDefinition Width="1*" />
                             <ColumnDefinition Width="1*" />
                         </Grid.ColumnDefinitions>
-                        <Label Text="Platform Number" HorizontalOptions="Fill"  Grid.Column="0" FontSize="Medium" FontAttributes="Bold" BackgroundColor="Turquoise" TextColor="Black" HorizontalTextAlignment="Center" Margin="1"/>
+                        <Button="Platform Number" HorizontalOptions="Fill"  Grid.Column="0" FontSize="Medium" FontAttributes="Bold" BackgroundColor="Turquoise" TextColor="Black" HorizontalTextAlignment="Center" Margin="1"/>
                         <Label Text="Departure Time" HorizontalOptions="Fill" Grid.Column="1" FontSize="Medium" FontAttributes="Bold" BackgroundColor="Turquoise" TextColor="Black" HorizontalTextAlignment="Center" Margin="1"/>
                         <Label Text="Destination" HorizontalOptions="Fill" Grid.Column="2" FontSize="Medium" FontAttributes="Bold" BackgroundColor="Turquoise" TextColor="Black" HorizontalTextAlignment="Center" Margin="1"/>
+                        <Label Text="{Binding GetPlatform}" Grid.Column="0" Grid.Row="1" TextColor="Black" BackgroundColor="Beige"></Label>
                     </Grid>
                 </ListView.Header>
             </ListView>
