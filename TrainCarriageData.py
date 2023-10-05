@@ -33,6 +33,7 @@ def getDescId(RouteID):
 
     station_data = []
     carriageData = []
+    commonRoute= []
     for i in cell_value(getData, "DescriptionID", "routes", "RouteID", RouteID):
         descriptionId = [*i]
         for j in descriptionId:
@@ -51,80 +52,32 @@ def getDescId(RouteID):
                         x = [*val]
                         x.pop(0)
                         station_data.append(x)
-                for val in station_data:
-                    for val_two in val:
-                        for m in has_value(getData, "train_stations", "StationId", val_two):
+            for val in station_data:
+                for val_two in val:
+                    for m in has_value(getData, "train_stations", "StationId", val_two):
                             stations = [*m]
                             stationID, stationName, maxCarriages, stationLat, StationLong = stations
                             carriages.append(maxCarriages)
                             print(stationName)
-                    for k in carriages:
+                for k in carriages:
                         carriagesTrain = k
-                        trainModel = has_value(getData, "train_models", "MaximumCarriages", carriagesTrain)
+                        trainModel = getMultiVal(getData, "train_models", "MaximumCarriages", carriagesTrain, "CommonRoute", RouteID)
                         carriageInfo = tuple([*trainModel])
                         carriageData.append(carriageInfo)
                         unq = set(carriageData)
-                    print(unq)
 
-                # desID, depStatID, first, sec, third, four, five, destin = routeData
+        print(unq)
+        print (RouteID)
 
-
-# def routeInfoEightStations():
-#   valueOfCell = has_value(getData, "route_description_8_stations", "DescriptionID", getInterStations(8))
-#  dataOfCell = [*valueOfCell]
-# routeData = []
-# for x in dataOfCell:
-#   routeData.append(x)
-# desID, depStatID, first, sec, third, four, five, six, seven, eight, destin = routeData
-# return routeData
+                       # for cr in carriageData:
+                         #   commonRoute = [*cr]
+                          #  if getMultiVal(getData, "train_models", "CommonRoute", RouteID, "MaximumCarriages",k):
+                           #     print (commonRoute)
 
 
-# def fiveStationInfo():  # if the route has 5 intermediate stations between the departure station and the destination
 
 
-# def eightStationInfo():  # if the route has 8 intermediate stations between departure station and destination station
-# t = 0
-# carriages = []
 
-# station_data = []
-# for val in routeInfoEightStations():
-#   if has_value(getData, "train_stations", "StationId", val[1]):
-#      x = [*val]
-#     x.pop(0)
-#    station_data.append(x)
-# for val in station_data:
-#    for val_two in val:
-#       for I in has_value(getData, "train_stations", "StationId", val_two):
-#          stations = [*i]
-#         stationID, stationName, maxCarriages = stations
-#        carriages.append(maxCarriages)
-# return carriages
-
-
-# def getTrainModel8Stations():
-# carriageData = []
-# if getInterStations(8):
-#   carriages = eightStationInfo()
-#  for j in carriages:
-#     carriagesTrain = j
-#    trainModel = has_value(getData, "train_models", "MaximumCarriages", carriagesTrain)
-#   carriageInfo = tuple([*trainModel])
-#  carriageData.append(carriageInfo)
-# unq = set(carriageData)
-# print(unq)
-
-
-# def getTrainModel5Stations():
-# carriageData = []
-# if getInterStations(5):
-#   carriages = fiveStationInfo()
-#  for j in carriages:
-#     carriagesTrain = j
-#    trainModel = has_value(getData, "train_models", "MaximumCarriages", carriagesTrain)
-#   carriageInfo = tuple([*trainModel])
-#  carriageData.append(carriageInfo)
-# unq = set(carriageData)
-# print(unq)
 
 
 def getDepartStation():
